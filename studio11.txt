@@ -1,1 +1,90 @@
 1. Fausto Tommasi, Chris Lucas
+2. pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;
+3. 
+4. The answer will be consistent and correct (with a zero), but the program will take longer to run.
+5. Yes, the race variable always ends up with a zero.
+race is 0
+race is 0
+race is 0
+
+6.
+$ time ./race
+race is 10430136
+
+real	0m0.126s
+user	0m0.243s
+sys	0m0.002s
+$ time ./race
+race is 18923294
+
+real	0m0.130s
+user	0m0.227s
+sys	0m0.004s
+$ time ./race
+race is -2514644
+
+real	0m0.126s
+user	0m0.246s
+sys	0m0.002s
+
+AVERAGE
+real	0m0.127s
+user	0m0.239s
+sys	0m0.001s
+
+7.
+
+$ time ./mutex
+race is 0
+
+real	0m3.729s
+user	0m3.814s
+sys	0m3.370s
+$ time ./mutex
+race is 0
+
+real	0m1.816s
+user	0m1.767s
+sys	0m1.149s
+$ time ./mutex
+race is 0
+
+real	0m4.969s
+user	0m5.029s
+sys	0m4.674s
+
+AVERAGE
+real	0m3.505s
+user	0m3.537s
+sys	0m3.064s
+
+8.
+
+$ time ./mutex
+race is 0
+
+real	0m0.129s
+user	0m0.126s
+sys	0m0.001s
+$ time ./mutex
+race is 0
+
+real	0m0.128s
+user	0m0.125s
+sys	0m0.002s
+$ time ./mutex
+race is 0
+
+real	0m0.126s
+user	0m0.126s
+sys	0m0.000s
+
+AVERAGE
+real	0m0.128s
+user	0m0.126s
+sys	0m0.001s
+
+9. In the previous case, the functions acted atomically so there was not overhead for the mutex for each loop iteration, only for each loop.
+
+10. per-iteration locking: if body of loop is expensive, you can lock only around the variable
+    per-thread locking: if body of loop is inexpensive
